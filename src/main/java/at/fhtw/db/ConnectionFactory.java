@@ -31,7 +31,9 @@ public class ConnectionFactory {
     public Connection getConnection(){
         try {
             DriverManager.registerDriver(new Driver());
-            return DriverManager.getConnection(Url, User, Password);
+            Connection connection = DriverManager.getConnection(Url, User, Password);
+            connection.setAutoCommit(false);
+            return connection;
         }catch (SQLException e){
             throw  new RuntimeException("Error connecting to the database", e);
         }
