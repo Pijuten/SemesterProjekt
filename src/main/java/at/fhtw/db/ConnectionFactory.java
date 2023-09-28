@@ -13,7 +13,7 @@ import org.postgresql.Driver;
 
 public class ConnectionFactory {
 
-    ConnectionFactory() throws IOException {
+    public ConnectionFactory() throws IOException {
         try(InputStream inputStream = new FileInputStream("src/main/java/resources/db.properties")){
             Properties properties = new Properties();
             properties.load(inputStream);

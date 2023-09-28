@@ -1,6 +1,7 @@
 CREATE TABLE userData(
                          username VARCHAR PRIMARY KEY UNIQUE,
                          password VARCHAR,
+                         token varchar,
                          currency int DEFAULT 40,
                          score int DEFAULT 1000,
                          wins int DEFAULT 0,
