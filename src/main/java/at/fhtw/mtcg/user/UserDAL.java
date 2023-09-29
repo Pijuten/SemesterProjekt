@@ -2,23 +2,26 @@ package at.fhtw.mtcg.user;
 
 import at.fhtw.db.ConnectionFactory;
 import at.fhtw.mtcg.models.User;
+import at.fhtw.mtcg.session.PasswordHash;
 
+import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 public class UserDAL {
-    public UserDAL(ConnectionFactory connectionFactory) {
-        this.connectionFactory = connectionFactory;
-    }
-    private ConnectionFactory connectionFactory;
 
-    public boolean adduser(User user){
+    public boolean adduser(User user) throws IOException, SQLException, NoSuchAlgorithmException, InvalidKeySpecException {
+        ConnectionFactory connectionFactory = new ConnectionFactory();
         Connection connection = connectionFactory.getConnection();
-        try {
-            PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO userdata(username,password) VALUES (?,?)");
+            PasswordHash passwordHash = new PasswordHash();
+            passwordHash.getHashedPassword(user);
+            PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO userdata(username,password,salt) VALUES (?,?,?)");
             preparedStatement.setString(1,user.getUsername());
-            preparedStatement.setString(2,user.getPassword());
+            preparedStatement.setBytes(2,user.getHashedPassword());
+            preparedStatement.setBytes(3,user.getSalt());
             int i = preparedStatement.executeUpdate();
             if(i==1){
                 connection.commit();
@@ -29,8 +32,5 @@ public class UserDAL {
                 connection.close();
                 return false;
             }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
     }
 }
