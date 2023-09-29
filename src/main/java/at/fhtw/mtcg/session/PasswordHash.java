@@ -26,8 +26,6 @@ public class PasswordHash {
         byte[] inputHash = verifyFactory.generateSecret(verifySpec).getEncoded();
 
         // Compare the generated hash with the stored hash
-        boolean passwordsMatch = java.util.Arrays.equals(user.getHashedPassword(), inputHash);
-        System.out.println(passwordsMatch);
-        return passwordsMatch;
+        return java.util.Arrays.equals(user.getHashedPassword(), inputHash);
     }
 }

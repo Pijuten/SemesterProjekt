@@ -1,6 +1,10 @@
 package at.fhtw.mtcg.transaction;
 
 
-class TransactionDALTest {
+import org.junit.jupiter.api.Test;
 
+class TransactionDALTest {
+    @Test
+    void changeAndRetrieveUserData(){
+    }
 }

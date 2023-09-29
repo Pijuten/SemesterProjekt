@@ -9,6 +9,7 @@ import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class UserDAL {
@@ -32,5 +33,38 @@ public class UserDAL {
                 connection.close();
                 return false;
             }
+    }
+    public User getUserInfo(String username) throws IOException, SQLException {
+        ConnectionFactory connectionFactory = new ConnectionFactory();
+        Connection connection = connectionFactory.getConnection();
+        PreparedStatement preparedStatement = connection.prepareStatement("Select displayname, bio, profileimage from userdata where username=?");
+        preparedStatement.setString(1,username);
+        ResultSet rs = preparedStatement.executeQuery();
+        if(rs.next()){
+            return new User(
+                    rs.getString("displayname"),
+                    rs.getString("bio"),
+                    rs.getString("profileimage")
+            );
+        }
+        return null;
+    }
+    public boolean editUserInfo(User user) throws IOException, SQLException {
+        ConnectionFactory connectionFactory = new ConnectionFactory();
+        Connection connection = connectionFactory.getConnection();
+        PreparedStatement preparedStatement = connection.prepareStatement("Update userdata Set displayname=?, bio=?, profileimage=? where username=?");
+        preparedStatement.setString(1,user.getDisplayName());
+        preparedStatement.setString(2,user.getBio());
+        preparedStatement.setString(3,user.getProfileImage());
+        preparedStatement.setString(4,user.getUsername());
+        int isSuccess = preparedStatement.executeUpdate();
+        if(isSuccess==1){
+            connection.commit();
+            connection.close();
+            return true;
+        }
+        connection.rollback();
+        connection.close();
+        return false;
     }
 }
