@@ -2,23 +2,27 @@ package at.fhtw.mtcg.user;
 
 import at.fhtw.db.ConnectionFactory;
 import at.fhtw.mtcg.models.User;
+import at.fhtw.mtcg.session.PasswordHash;
 
+import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class UserDAL {
-    public UserDAL(ConnectionFactory connectionFactory) {
-        this.connectionFactory = connectionFactory;
-    }
-    private ConnectionFactory connectionFactory;
 
-    public boolean adduser(User user){
+    public boolean adduser(User user) throws IOException, SQLException, NoSuchAlgorithmException, InvalidKeySpecException {
+        ConnectionFactory connectionFactory = new ConnectionFactory();
         Connection connection = connectionFactory.getConnection();
-        try {
-            PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO userdata(username,password) VALUES (?,?)");
+            PasswordHash passwordHash = new PasswordHash();
+            passwordHash.getHashedPassword(user);
+            PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO userdata(username,password,salt) VALUES (?,?,?)");
             preparedStatement.setString(1,user.getUsername());
-            preparedStatement.setString(2,user.getPassword());
+            preparedStatement.setBytes(2,user.getHashedPassword());
+            preparedStatement.setBytes(3,user.getSalt());
             int i = preparedStatement.executeUpdate();
             if(i==1){
                 connection.commit();
@@ -29,8 +33,38 @@ public class UserDAL {
                 connection.close();
                 return false;
             }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
+    }
+    public User getUserInfo(String username) throws IOException, SQLException {
+        ConnectionFactory connectionFactory = new ConnectionFactory();
+        Connection connection = connectionFactory.getConnection();
+        PreparedStatement preparedStatement = connection.prepareStatement("Select displayname, bio, profileimage from userdata where username=?");
+        preparedStatement.setString(1,username);
+        ResultSet rs = preparedStatement.executeQuery();
+        if(rs.next()){
+            return new User(
+                    rs.getString("displayname"),
+                    rs.getString("bio"),
+                    rs.getString("profileimage")
+            );
         }
+        return null;
+    }
+    public boolean editUserInfo(User user) throws IOException, SQLException {
+        ConnectionFactory connectionFactory = new ConnectionFactory();
+        Connection connection = connectionFactory.getConnection();
+        PreparedStatement preparedStatement = connection.prepareStatement("Update userdata Set displayname=?, bio=?, profileimage=? where username=?");
+        preparedStatement.setString(1,user.getDisplayName());
+        preparedStatement.setString(2,user.getBio());
+        preparedStatement.setString(3,user.getProfileImage());
+        preparedStatement.setString(4,user.getUsername());
+        int isSuccess = preparedStatement.executeUpdate();
+        if(isSuccess==1){
+            connection.commit();
+            connection.close();
+            return true;
+        }
+        connection.rollback();
+        connection.close();
+        return false;
     }
 }

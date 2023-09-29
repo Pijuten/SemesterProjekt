@@ -13,7 +13,7 @@ import org.postgresql.Driver;
 
 public class ConnectionFactory {
 
-    ConnectionFactory() throws IOException {
+    public ConnectionFactory() throws IOException {
         try(InputStream inputStream = new FileInputStream("src/main/java/resources/db.properties")){
             Properties properties = new Properties();
             properties.load(inputStream);
@@ -31,7 +31,9 @@ public class ConnectionFactory {
     public Connection getConnection(){
         try {
             DriverManager.registerDriver(new Driver());
-            return DriverManager.getConnection(Url, User, Password);
+            Connection connection = DriverManager.getConnection(Url, User, Password);
+            connection.setAutoCommit(false);
+            return connection;
         }catch (SQLException e){
             throw  new RuntimeException("Error connecting to the database", e);
         }
