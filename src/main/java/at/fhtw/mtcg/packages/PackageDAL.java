@@ -2,6 +2,7 @@ package at.fhtw.mtcg.packages;
 
 import at.fhtw.db.ConnectionFactory;
 import at.fhtw.mtcg.models.Card;
+import lombok.Cleanup;
 
 import java.io.IOException;
 import java.sql.*;
@@ -14,10 +15,13 @@ public class PackageDAL {
                 return 0;
             }
             ConnectionFactory connectionFactory = new ConnectionFactory();
+            @Cleanup
             Connection connection = connectionFactory.getConnection();
 
             int packageId = 0;
+            @Cleanup
             Statement stmt = connection.createStatement();
+            @Cleanup
             ResultSet rs = stmt.executeQuery("select MAX(packageid) as maxLevel from cards");
             if (rs.next() && !rs.wasNull()) {
                 packageId = rs.getInt("maxLevel") + 1;
@@ -32,12 +36,10 @@ public class PackageDAL {
                 changedRows = preparedStatement.executeUpdate();
                 if (changedRows != 1) {
                     connection.rollback();
-                    connection.close();
                     return 0;
                 }
             }
             connection.commit();
-            connection.close();
             return packageId;
         }catch(SQLException sqlException){
             return 0;
