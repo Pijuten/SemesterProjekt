@@ -45,9 +45,11 @@ class SessionDALTest {
         assertEquals(rs.getString(1),"admin-mtcgToken");
     }
     @Test
-    void validateTokenTest() throws SQLException, IOException {
+    void validateTokenTest() throws SQLException, IOException, NoSuchAlgorithmException, InvalidKeySpecException {
+        User userLog = new User("admin","admin");
         String AuthToken="admin-mtcgToken";
         SessionDAL sessionDAL = new SessionDAL();
+        sessionDAL.loginUser(userLog);
         User user = sessionDAL.validateToken(AuthToken);
         System.out.println();
         assertNotEquals(user,null);

@@ -19,9 +19,9 @@ class PackageDALTest {
     void AddPackageTest() throws SQLException, IOException {
         PackageDAL packageDALTest = new PackageDAL();
         Card card1 = new Card("845f0dc7-37d0-426e-994e-43fc3ac83c04","WaterGoblin",10.0f);
-        Card card2 = new Card("845f0dc7-37d0-426e-994e-43fc3ac83c04","WaterGoblin",10.0f);
-        Card card3 = new Card("845f0dc7-37d0-426e-994e-43fc3ac83c04","GrassGoblin",10.0f);
-        Card card4 = new Card("845f0dc7-37d0-426e-994e-43fc3ac83c04","FireGoblin",10.0f);
+        Card card2 = new Card("845f0dc7-37d0-426e-994e-43fc3ac83c02","WaterGoblin",10.0f);
+        Card card3 = new Card("845f0dc7-37d0-426e-994e-43fc3ac83c03","GrassGoblin",10.0f);
+        Card card4 = new Card("845f0dc7-37d0-426e-994e-43fc3ac83c09","FireGoblin",10.0f);
         List<Card> Deck = new ArrayList<>();
         Deck.add(card1);
         Deck.add(card2);

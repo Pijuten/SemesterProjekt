@@ -25,6 +25,7 @@ public class SessionDAL {
                 PreparedStatement psSetToken = connection.prepareStatement("UPDATE userdata SET token=? WHERE username=?");
                 psSetToken.setString(1,user.getToken());
                 psSetToken.setString(2, user.getUsername());
+                psSetToken.executeUpdate();
                 connection.commit();
             } else {
                 user.setToken(null);
@@ -48,6 +49,7 @@ public class SessionDAL {
     }
     public User validateToken(String AuthToken) throws IOException, SQLException {
         if(AuthToken==null){
+            System.out.println("No token");
             return null;
         }
 
