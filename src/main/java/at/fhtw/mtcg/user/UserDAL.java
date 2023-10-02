@@ -15,29 +15,43 @@ import java.sql.SQLException;
 
 public class UserDAL {
 
-    public boolean adduser(User user) throws IOException, SQLException, NoSuchAlgorithmException, InvalidKeySpecException {
-        ConnectionFactory connectionFactory = new ConnectionFactory();
-        @Cleanup
-        Connection connection = connectionFactory.getConnection();
-        PasswordHash passwordHash = new PasswordHash();
-        passwordHash.getHashedPassword(user);
-        @Cleanup
-        PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO userdata(username,password,salt) VALUES (?,?,?)");
-        preparedStatement.setString(1, user.getUsername());
-        preparedStatement.setBytes(2, user.getHashedPassword());
-        preparedStatement.setBytes(3, user.getSalt());
-        int i = preparedStatement.executeUpdate();
-        if (i == 1) {
-            connection.commit();
-            return true;
-        } else {
-            connection.rollback();
-            return false;
+    public UserDAL() throws IOException {
+        this.connectionFactory = new ConnectionFactory();
+    }
+
+    private final ConnectionFactory connectionFactory;
+
+
+    public void adduser(User user) throws DuplicateUserException, UserDalEmptyFieldException {
+        if (user.getUsername() == null || user.getUsername().isEmpty() || user.getPassword() == null || user.getPassword().isEmpty()) {
+            throw new UserDalEmptyFieldException("Username or Password is empty");
+        }
+        try {
+            PasswordHash passwordHash = new PasswordHash();
+            passwordHash.getHashedPassword(user);
+
+            @Cleanup
+            Connection connection = connectionFactory.getConnection();
+
+            @Cleanup
+            PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO userdata(username,password,salt) VALUES (?,?,?)");
+            preparedStatement.setString(1, user.getUsername());
+            preparedStatement.setBytes(2, user.getHashedPassword());
+            preparedStatement.setBytes(3, user.getSalt());
+            int i = preparedStatement.executeUpdate();
+            if (i == 1) {
+                connection.commit();
+            } else {
+                connection.rollback();
+            }
+        } catch (SQLException e) {
+            throw new DuplicateUserException("Error duplicate username");
+        } catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
+            throw new RuntimeException("HashingError", e);
         }
     }
 
-    public User getUserInfo(String username) throws IOException, SQLException {
-        ConnectionFactory connectionFactory = new ConnectionFactory();
+    public User getUserInfo(String username) throws SQLException {
         @Cleanup
         Connection connection = connectionFactory.getConnection();
         @Cleanup
@@ -55,8 +69,7 @@ public class UserDAL {
         return null;
     }
 
-    public boolean editUserInfo(User user) throws IOException, SQLException {
-        ConnectionFactory connectionFactory = new ConnectionFactory();
+    public boolean editUserInfo(User user) throws SQLException {
         @Cleanup
         Connection connection = connectionFactory.getConnection();
         @Cleanup

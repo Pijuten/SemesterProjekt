@@ -13,13 +13,17 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class cardDAL {
-    List<Card> GetCards(User user) throws IOException, SQLException {
-        ConnectionFactory connectionFactory = new ConnectionFactory();
+public class CardDAL {
+
+    public CardDAL() throws IOException {
+        this.connectionFactory = new ConnectionFactory();
+    }
+    private final ConnectionFactory connectionFactory;
+    List<Card> GetCards(User user) throws SQLException {
         @Cleanup
         Connection connection = connectionFactory.getConnection();
         @Cleanup
-        PreparedStatement ps = connection.prepareStatement("SELECT cardid as cardid, cardname as cardname, damage as damage from cards where username=?");
+        PreparedStatement ps = connection.prepareStatement("SELECT cardid, cardname, damage from cards where username=?");
         ps.setString(1, user.getUsername());
         @Cleanup
         ResultSet rs = ps.executeQuery();

@@ -13,8 +13,12 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class SessionDAL {
-    public User loginUser(User user) throws IOException, SQLException, NoSuchAlgorithmException, InvalidKeySpecException {
-            ConnectionFactory connectionFactory = new ConnectionFactory();
+    SessionDAL() throws IOException {
+        this.connectionFactory = new ConnectionFactory();
+    }
+    private final ConnectionFactory connectionFactory;
+
+    public User loginUser(User user) throws SQLException, NoSuchAlgorithmException, InvalidKeySpecException {
             @Cleanup
             Connection connection = connectionFactory.getConnection();
             getSaltPasswordByUser(user);
@@ -36,8 +40,7 @@ public class SessionDAL {
 
     }
 
-    private void getSaltPasswordByUser(User user) throws IOException, SQLException {
-        ConnectionFactory connectionFactory = new ConnectionFactory();
+    private void getSaltPasswordByUser(User user) throws SQLException {
         @Cleanup
         Connection connection = connectionFactory.getConnection();
         @Cleanup
@@ -50,12 +53,11 @@ public class SessionDAL {
            user.setHashedPassword(rs.getBytes(2));
         }
     }
-    public User validateToken(String AuthToken) throws IOException, SQLException {
+    public User validateToken(String AuthToken) throws SQLException {
         if(AuthToken==null){
             System.out.println("No token");
             return null;
         }
-        ConnectionFactory connectionFactory = new ConnectionFactory();
         @Cleanup
         Connection connection = connectionFactory.getConnection();
         @Cleanup

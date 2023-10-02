@@ -9,13 +9,13 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 public class TransactionDAL {
-    public TransactionDAL() {
+    public TransactionDAL() throws IOException {
+        this.connectionFactory = new ConnectionFactory();
     }
-
-    public boolean AcquirePackage(User user) throws IOException, SQLException {
+    private final ConnectionFactory connectionFactory;
+    public void AcquirePackage(User user) throws SQLException {
         if(user.getCurrency()<10)
-            return false;
-        ConnectionFactory connectionFactory = new ConnectionFactory();
+            return;
         @Cleanup
         Connection connection = connectionFactory.getConnection();
         @Cleanup
@@ -27,6 +27,5 @@ public class TransactionDAL {
         preparedStatementSubtractMoney.setString(1,user.getUsername());
         preparedStatementSubtractMoney.executeUpdate();
         connection.commit();
-        return true;
     }
 }

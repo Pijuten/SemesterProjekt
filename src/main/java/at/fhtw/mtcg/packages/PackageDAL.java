@@ -9,12 +9,16 @@ import java.sql.*;
 import java.util.List;
 
 public class PackageDAL {
+
+    public PackageDAL() throws IOException {
+        this.connectionFactory = new ConnectionFactory();
+    }
+    private final ConnectionFactory connectionFactory;
     public int addPackages(List<Card> Deck) throws IOException {
        try {
             if (Deck.isEmpty()) {
                 return 0;
             }
-            ConnectionFactory connectionFactory = new ConnectionFactory();
             @Cleanup
             Connection connection = connectionFactory.getConnection();
 
