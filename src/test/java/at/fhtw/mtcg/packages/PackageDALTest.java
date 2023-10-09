@@ -44,7 +44,6 @@ class PackageDALTest {
         Deck.add(card4);
         int result = packageDALTest.addPackages(Deck);
         assertTrue(result>0);
-        ConnectionFactoryImpl connectionFactoryImpl = new ConnectionFactoryImpl();
         Connection connection = connectionFactoryH2.getConnection();
         Statement statement = connection.createStatement();
         statement.executeUpdate("DELETE from cards WHERE packageid="+result);

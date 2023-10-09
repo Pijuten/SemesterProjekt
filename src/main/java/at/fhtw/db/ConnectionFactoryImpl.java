@@ -24,9 +24,9 @@ public class ConnectionFactoryImpl implements ConnectionFactory {
             throw new IOException("Error reading properties File",e);
         }
     }
-    private String Url;
-    private String User;
-    private String Password;
+    private final String Url;
+    private final String User;
+    private final String Password;
 
     public Connection getConnection(){
         try {

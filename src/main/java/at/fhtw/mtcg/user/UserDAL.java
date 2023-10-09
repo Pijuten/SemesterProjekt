@@ -15,7 +15,7 @@ import java.sql.SQLException;
 
 public class UserDAL {
 
-    public UserDAL(ConnectionFactory connectionFactory) throws IOException {
+    public UserDAL(ConnectionFactory connectionFactory) {
         this.connectionFactory = connectionFactory;
     }
 

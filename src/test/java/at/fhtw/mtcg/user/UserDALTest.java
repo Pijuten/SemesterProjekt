@@ -1,7 +1,6 @@
 package at.fhtw.mtcg.user;
 
 import at.fhtw.db.ConnectionFactoryH2Impl;
-import at.fhtw.db.ConnectionFactoryImpl;
 import at.fhtw.mtcg.models.User;
 import at.fhtw.mtcg.session.SessionDAL;
 import org.junit.jupiter.api.BeforeAll;
@@ -30,13 +29,13 @@ class UserDALTest {
         assertEquals("admin",user.getPassword());
     }
     @Test
-    void addDuplicateUser() throws IOException, UserDalEmptyFieldException, DuplicateUserException {
+    void addDuplicateUser() throws IOException {
         User user = new User("admin", "admin");
         UserDAL userDAL = new UserDAL(connectionFactoryH2);
         assertThrows(DuplicateUserException.class,()->userDAL.adduser(user));
     }
     @Test
-    void ChangeAndRetrieveUserInfo() throws SQLException, IOException, UserDalEmptyFieldException, DuplicateUserException {
+    void ChangeAndRetrieveUserInfo() throws SQLException, IOException {
         User userEdit = new User("Kienboeck", "me playin...", ":-)");
         userEdit.setUsername("admin");
         UserDAL userDAL = new UserDAL(connectionFactoryH2);

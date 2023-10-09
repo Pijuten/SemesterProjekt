@@ -1,7 +1,6 @@
 package at.fhtw.mtcg.session;
 
 import at.fhtw.db.ConnectionFactoryH2Impl;
-import at.fhtw.db.ConnectionFactoryImpl;
 import at.fhtw.mtcg.models.User;
 import at.fhtw.mtcg.user.DuplicateUserException;
 import at.fhtw.mtcg.user.UserDAL;

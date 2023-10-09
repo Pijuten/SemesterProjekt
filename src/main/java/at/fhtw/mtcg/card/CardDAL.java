@@ -15,7 +15,7 @@ import java.util.List;
 
 public class CardDAL {
 
-    public CardDAL(ConnectionFactory connectionFactory) throws IOException {
+    public CardDAL(ConnectionFactory connectionFactory) {
         this.connectionFactory = connectionFactory;
     }
     private final ConnectionFactory connectionFactory;

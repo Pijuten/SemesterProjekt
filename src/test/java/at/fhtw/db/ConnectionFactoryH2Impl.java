@@ -31,9 +31,9 @@ public class ConnectionFactoryH2Impl implements ConnectionFactory {
             throw new RuntimeException(e);
         }
     }
-    private String Url;
-    private String User;
-    private String Password;
+    final private String Url;
+    final private String User;
+    final private String Password;
 
     public Connection getConnection(){
         try {
@@ -46,7 +46,7 @@ public class ConnectionFactoryH2Impl implements ConnectionFactory {
         }
     }
     @Test
-    void TestIfConnectionOpen() throws SQLException, IOException {
+    void TestIfConnectionOpen() throws SQLException {
         Connection connection = getConnection();
         assertFalse(connection.isClosed());
         connection.close();

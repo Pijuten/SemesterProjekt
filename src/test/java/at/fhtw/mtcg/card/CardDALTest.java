@@ -1,7 +1,6 @@
 package at.fhtw.mtcg.card;
 
 import at.fhtw.db.ConnectionFactoryH2Impl;
-import at.fhtw.db.ConnectionFactoryImpl;
 import at.fhtw.mtcg.models.Card;
 import at.fhtw.mtcg.models.User;
 import at.fhtw.mtcg.session.SessionDAL;
