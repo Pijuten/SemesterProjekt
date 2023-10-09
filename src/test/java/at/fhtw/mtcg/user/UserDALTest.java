@@ -29,13 +29,13 @@ class UserDALTest {
         assertEquals("admin",user.getPassword());
     }
     @Test
-    void addDuplicateUser() throws IOException {
+    void addDuplicateUser() {
         User user = new User("admin", "admin");
         UserDAL userDAL = new UserDAL(connectionFactoryH2);
         assertThrows(DuplicateUserException.class,()->userDAL.adduser(user));
     }
     @Test
-    void ChangeAndRetrieveUserInfo() throws SQLException, IOException {
+    void ChangeAndRetrieveUserInfo() throws SQLException {
         User userEdit = new User("Kienboeck", "me playin...", ":-)");
         userEdit.setUsername("admin");
         UserDAL userDAL = new UserDAL(connectionFactoryH2);
@@ -47,7 +47,7 @@ class UserDALTest {
     }
 
     @Test
-    void ChangeNonExistentUser() throws SQLException, IOException {
+    void ChangeNonExistentUser() throws SQLException {
         User user = new User("Kienboeck", "me playin...", ":-)");
         user.setUsername("nicht_echter_user");
         UserDAL userDAL = new UserDAL(connectionFactoryH2);

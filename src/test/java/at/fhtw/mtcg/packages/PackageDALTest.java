@@ -1,7 +1,6 @@
 package at.fhtw.mtcg.packages;
 
 import at.fhtw.db.ConnectionFactoryH2Impl;
-import at.fhtw.db.ConnectionFactoryImpl;
 import at.fhtw.mtcg.models.Card;
 import at.fhtw.mtcg.models.User;
 import at.fhtw.mtcg.user.DuplicateUserException;
@@ -31,7 +30,7 @@ class PackageDALTest {
         userDAL.adduser(user);
     }
     @Test
-    void AddPackageTest() throws SQLException, IOException {
+    void AddPackageTest() throws SQLException {
         PackageDAL packageDALTest = new PackageDAL(connectionFactoryH2);
         Card card1 = new Card("845f0dc7-37d0-426e-994e-43fc3ac83c04","WaterGoblin",10.0f);
         Card card2 = new Card("845f0dc7-37d0-426e-994e-43fc3ac83c02","WaterGoblin",10.0f);
@@ -52,7 +51,7 @@ class PackageDALTest {
 
     }
     @Test
-    void addPackageSameIdTest() throws IOException {
+    void addPackageSameIdTest() {
         PackageDAL packageDALTest = new PackageDAL(connectionFactoryH2);
         Card card1 = new Card("845f0dc7-37d0-426e-994e-43fc3ac83c04","WaterGoblin",10.0f);
         Card card2 = new Card("845f0dc7-37d0-426e-994e-43fc3ac83c04","WaterGoblin",10.0f);
@@ -67,7 +66,7 @@ class PackageDALTest {
         assertEquals(0, result);
     }
     @Test
-    void addPackageEmptyTest() throws IOException {
+    void addPackageEmptyTest() {
         PackageDAL packageDALTest = new PackageDAL(connectionFactoryH2);
         List<Card> Deck = new ArrayList<>();
         int result = packageDALTest.addPackages(Deck);

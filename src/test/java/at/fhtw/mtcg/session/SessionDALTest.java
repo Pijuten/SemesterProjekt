@@ -19,21 +19,21 @@ class SessionDALTest {
 
     static private ConnectionFactoryH2Impl connectionFactoryH2;
     @BeforeAll
-    static public void setup() throws IOException, UserDalEmptyFieldException, DuplicateUserException {
+    static public void setup() throws UserDalEmptyFieldException, DuplicateUserException, IOException {
         connectionFactoryH2 = new ConnectionFactoryH2Impl();
         User user = new User("admin", "admin");
         UserDAL userDAL = new UserDAL(connectionFactoryH2);
         userDAL.adduser(user);
     }
     @Test
-    void loginUserCorrectPassword() throws SQLException, IOException, NoSuchAlgorithmException, InvalidKeySpecException {
+    void loginUserCorrectPassword() throws SQLException, NoSuchAlgorithmException, InvalidKeySpecException {
         User user = new User("admin","admin");
         SessionDAL sessionDAL = new SessionDAL(connectionFactoryH2);
         sessionDAL.loginUser(user);
         assertEquals("admin-mtcgToken",user.getToken());
     }
     @Test
-    void loginUserWrongPassword() throws SQLException, IOException, NoSuchAlgorithmException, InvalidKeySpecException {
+    void loginUserWrongPassword() throws SQLException, NoSuchAlgorithmException, InvalidKeySpecException {
         User user = new User("admin","wrongPassword");
         SessionDAL sessionDAL = new SessionDAL(connectionFactoryH2);
         sessionDAL.loginUser(user);
@@ -41,7 +41,7 @@ class SessionDALTest {
 
     }
     @Test
-    void validateTokenTest() throws SQLException, IOException, NoSuchAlgorithmException, InvalidKeySpecException {
+    void validateTokenTest() throws SQLException, NoSuchAlgorithmException, InvalidKeySpecException {
         User userLog = new User("admin","admin");
         String AuthToken="admin-mtcgToken";
         SessionDAL sessionDAL = new SessionDAL(connectionFactoryH2);
@@ -53,7 +53,7 @@ class SessionDALTest {
         assertEquals(user.getToken(),"admin-mtcgToken");
     }
     @Test
-    void validateWrongTokenTest() throws  SQLException, IOException{
+    void validateWrongTokenTest() throws  SQLException{
 
         String AuthToken="admin-mtcgToke";
         SessionDAL sessionDAL = new SessionDAL(connectionFactoryH2);
@@ -61,7 +61,7 @@ class SessionDALTest {
         assertNull(user);
     }
     @Test
-    void validateNullTokenTest()throws  SQLException, IOException{
+    void validateNullTokenTest()throws  SQLException{
 
         String AuthToken=null;
         SessionDAL sessionDAL = new SessionDAL(connectionFactoryH2);

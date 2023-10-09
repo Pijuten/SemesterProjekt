@@ -5,7 +5,6 @@ import at.fhtw.mtcg.models.Card;
 import at.fhtw.mtcg.models.User;
 import lombok.Cleanup;
 
-import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

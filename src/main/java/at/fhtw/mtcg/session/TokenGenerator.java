@@ -14,7 +14,7 @@ public class TokenGenerator {
             return null;
         return username+"-mtcgToken";
     }
-    private User user;
+    private final User user;
     @Getter
     private String token;
 

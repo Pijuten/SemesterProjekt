@@ -4,7 +4,6 @@ import at.fhtw.db.ConnectionFactory;
 import at.fhtw.mtcg.models.Card;
 import lombok.Cleanup;
 
-import java.io.IOException;
 import java.sql.*;
 import java.util.List;
 

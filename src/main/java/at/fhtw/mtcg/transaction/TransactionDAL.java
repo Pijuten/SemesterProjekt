@@ -3,7 +3,6 @@ import at.fhtw.db.ConnectionFactory;
 import at.fhtw.mtcg.models.User;
 import lombok.Cleanup;
 
-import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;

@@ -33,7 +33,7 @@ class CardDALTest {
         assertEquals("admin",user.getPassword());
     }
     @Test
-    public void GetCardsTest() throws IOException, SQLException {
+    public void GetCardsTest() throws SQLException {
         User user = new User("admin","admin");
         CardDAL cardDAL = new CardDAL(connectionFactoryH2);
         List<Card> cards = cardDAL.GetCards(user);

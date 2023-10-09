@@ -5,7 +5,6 @@ import at.fhtw.mtcg.models.User;
 import at.fhtw.mtcg.session.PasswordHash;
 import lombok.Cleanup;
 
-import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 import java.sql.Connection;
