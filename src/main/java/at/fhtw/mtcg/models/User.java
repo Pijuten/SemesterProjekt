@@ -1,28 +1,29 @@
 package at.fhtw.mtcg.models;
 
  import com.fasterxml.jackson.annotation.JsonAlias;
+ import lombok.Getter;
+ import lombok.Setter;
+
+@Getter @Setter
 public class User {
     @JsonAlias({"Username"})
     private String username;
     @JsonAlias({"Password"})
     private String password;
-
     private byte[] hashedPassword;
     private String token;
-
     private int currency;
-
     private int score;
     private int win;
     private int draw;
     private int loss;
+
     @JsonAlias({"Name"})
     private String displayName;
     @JsonAlias({"Bio"})
     private String bio;
     @JsonAlias({"Image"})
     private String profileImage;
-
     private byte[] salt;
 
 
@@ -48,108 +49,5 @@ public class User {
         this.bio = bio;
         this.profileImage = profileImage;
         this.salt = salt;
-    }
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public String getToken() {
-        return token;
-    }
-
-    public void setToken(String token) {
-        this.token = token;
-    }
-
-    public int getCurrency() {
-        return currency;
-    }
-
-    public void setCurrency(int currency) {
-        this.currency = currency;
-    }
-
-    public int getScore() {
-        return score;
-    }
-
-    public void setScore(int score) {
-        this.score = score;
-    }
-
-    public int getWin() {
-        return win;
-    }
-
-    public void setWin(int win) {
-        this.win = win;
-    }
-
-    public int getDraw() {
-        return draw;
-    }
-
-    public void setDraw(int draw) {
-        this.draw = draw;
-    }
-
-    public int getLoss() {
-        return loss;
-    }
-
-    public void setLoss(int loss) {
-        this.loss = loss;
-    }
-
-    public String getDisplayName() {
-        return displayName;
-    }
-
-    public void setDisplayName(String displayName) {
-        this.displayName = displayName;
-    }
-
-    public String getBio() {
-        return bio;
-    }
-
-    public void setBio(String bio) {
-        this.bio = bio;
-    }
-
-    public String getProfileImage() {
-        return profileImage;
-    }
-
-    public void setProfileImage(String profileImage) {
-        this.profileImage = profileImage;
-    }
-
-    public byte[] getSalt() {
-        return salt;
-    }
-
-    public void setSalt(byte[] salt) {
-        this.salt = salt;
-    }
-
-    public byte[] getHashedPassword() {
-        return hashedPassword;
-    }
-
-    public void setHashedPassword(byte[] hashedPassword) {
-        this.hashedPassword = hashedPassword;
     }
 }

@@ -12,4 +12,10 @@ class TokenGeneratorTest {
         TokenGenerator tokenGenerator = new TokenGenerator(user);
         assertEquals(tokenGenerator.getToken(),"test-mtcgToken");
     }
+    @Test
+    public void GenerateEmptyToken(){
+        User user = new User("","test");
+        TokenGenerator tokenGenerator = new TokenGenerator(user);
+        assertNull(tokenGenerator.getToken());
+    }
 }

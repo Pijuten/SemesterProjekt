@@ -1,6 +1,7 @@
 package at.fhtw.mtcg.session;
 
 import at.fhtw.mtcg.models.User;
+import lombok.Getter;
 
 public class TokenGenerator {
     public TokenGenerator(User user){
@@ -9,12 +10,12 @@ public class TokenGenerator {
     }
     private String GenerateToken(){
         String username = user.getUsername();
+        if(username==null || username.isEmpty())
+            return null;
         return username+"-mtcgToken";
     }
-    private User user;
+    private final User user;
+    @Getter
     private String token;
 
-    public String getToken() {
-        return token;
-    }
 }
