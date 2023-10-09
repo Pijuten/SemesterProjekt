@@ -3,6 +3,7 @@ package at.fhtw.mtcg.packages;
 import at.fhtw.db.ConnectionFactory;
 import at.fhtw.mtcg.models.Card;
 import lombok.Cleanup;
+import org.postgresql.core.v3.ConnectionFactoryImpl;
 
 import java.io.IOException;
 import java.sql.*;
@@ -10,8 +11,8 @@ import java.util.List;
 
 public class PackageDAL {
 
-    public PackageDAL() throws IOException {
-        this.connectionFactory = new ConnectionFactory();
+    public PackageDAL(ConnectionFactory connectionFactory) throws IOException {
+        this.connectionFactory = connectionFactory;
     }
     private final ConnectionFactory connectionFactory;
     public int addPackages(List<Card> Deck) throws IOException {

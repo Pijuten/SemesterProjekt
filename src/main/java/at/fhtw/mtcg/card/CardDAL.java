@@ -15,8 +15,8 @@ import java.util.List;
 
 public class CardDAL {
 
-    public CardDAL() throws IOException {
-        this.connectionFactory = new ConnectionFactory();
+    public CardDAL(ConnectionFactory connectionFactory) throws IOException {
+        this.connectionFactory = connectionFactory;
     }
     private final ConnectionFactory connectionFactory;
     List<Card> GetCards(User user) throws SQLException {
@@ -29,7 +29,7 @@ public class CardDAL {
         ResultSet rs = ps.executeQuery();
         List<Card> cards = new ArrayList<>();
         if (!rs.isBeforeFirst()) {
-            return null;
+            return cards;
         } else {
             while(rs.next()) {
                 Card cards1 = new Card(

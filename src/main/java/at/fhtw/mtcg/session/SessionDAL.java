@@ -1,6 +1,7 @@
 package at.fhtw.mtcg.session;
 
 import at.fhtw.db.ConnectionFactory;
+import at.fhtw.db.ConnectionFactoryImpl;
 import at.fhtw.mtcg.models.User;
 import lombok.Cleanup;
 
@@ -13,8 +14,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class SessionDAL {
-    SessionDAL() throws IOException {
-        this.connectionFactory = new ConnectionFactory();
+    public SessionDAL(ConnectionFactory connectionFactory) throws IOException {
+        this.connectionFactory = connectionFactory;
     }
     private final ConnectionFactory connectionFactory;
 

@@ -8,11 +8,11 @@ import java.sql.SQLException;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class ConnectionFactoryTest  {
+class ConnectionFactoryImplTest {
     @Test
     void TestIfConnectionOpen() throws SQLException, IOException {
-        ConnectionFactory connectionFactory = new ConnectionFactory();
-        Connection connection = connectionFactory.getConnection();
+        ConnectionFactoryImpl connectionFactoryImpl = new ConnectionFactoryImpl();
+        Connection connection = connectionFactoryImpl.getConnection();
         assertFalse(connection.isClosed());
         connection.close();
     }

@@ -1,5 +1,6 @@
 package at.fhtw.mtcg.transaction;
 import at.fhtw.db.ConnectionFactory;
+import at.fhtw.db.ConnectionFactoryImpl;
 import at.fhtw.mtcg.models.User;
 import lombok.Cleanup;
 
@@ -9,8 +10,8 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 public class TransactionDAL {
-    public TransactionDAL() throws IOException {
-        this.connectionFactory = new ConnectionFactory();
+    public TransactionDAL(ConnectionFactory connectionFactory) throws IOException {
+        this.connectionFactory = connectionFactory;
     }
     private final ConnectionFactory connectionFactory;
     public void AcquirePackage(User user) throws SQLException {

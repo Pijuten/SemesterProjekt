@@ -15,8 +15,8 @@ import java.sql.SQLException;
 
 public class UserDAL {
 
-    public UserDAL() throws IOException {
-        this.connectionFactory = new ConnectionFactory();
+    public UserDAL(ConnectionFactory connectionFactory) throws IOException {
+        this.connectionFactory = connectionFactory;
     }
 
     private final ConnectionFactory connectionFactory;
@@ -69,7 +69,7 @@ public class UserDAL {
         return null;
     }
 
-    public boolean editUserInfo(User user) throws SQLException {
+    public void editUserInfo(User user) throws SQLException {
         @Cleanup
         Connection connection = connectionFactory.getConnection();
         @Cleanup
@@ -81,9 +81,8 @@ public class UserDAL {
         int isSuccess = preparedStatement.executeUpdate();
         if (isSuccess == 1) {
             connection.commit();
-            return true;
+            return;
         }
         connection.rollback();
-        return false;
     }
 }
